@@ -47,7 +47,7 @@ server.post('/queue', function (req, res) {
 
             var response = {
                 requestId: result.requestId, // A unique id is attached to every request that comes through the API
-                chunks: result.chunks || 'Text not returned'
+                chunks: result.chunks
             };
 
             res.status(httpSrvc.OK);

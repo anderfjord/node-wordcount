@@ -24,7 +24,7 @@
     "should": "8.2.2"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha -R spec ./test/*",
+    "test": "./node_modules/mocha/bin/mocha --reporter spec --recursive ./test/*",
     "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha -- ./test"
   }
 }

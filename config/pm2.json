@@ -1,0 +1,32 @@
+{
+  "apps": [
+    {
+      "name": "api",
+      "instances": 1,
+      "cron_restart": "0 */12 * * *",
+      "script": "./agents/api.js",
+      "log_date_format": "YYYY-MM-DD",
+      "exec_mode": "cluster_mode",
+      "merge_logs": true,
+      "log_file": "/var/log/wordcount/pm2/api.log",
+      "error_file": "/var/log/wordcount/pm2/api-err.log",
+      "out_file": "/var/log/wordcount/pm2/api-out.log",
+      "pid_file": "/var/run/wordcount/api.pid",
+      "env": {
+        "PORT": 80
+      }
+    },{
+      "name": "worker",
+      "instances": 10,
+      "cron_restart": "0 */6 * * *",
+      "script": "./agents/worker.js",
+      "log_date_format": "YYYY-MM-DD",
+      "exec_mode": "cluster_mode",
+      "merge_logs": true,
+      "log_file": "/var/log/wordcount/pm2/worker.log",
+      "error_file": "/var/log/wordcount/pm2/worker-err.log",
+      "out_file": "/var/log/wordcount/pm2/worker-out.log",
+      "pid_file": "/var/run/wordcount/worker.pid"
+    }
+  ]
+}

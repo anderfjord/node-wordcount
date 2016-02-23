@@ -1,0 +1,30 @@
+{
+  "name": "node-wordcount",
+  "version": "0.0.1",
+  "description": "Distributed Word Counter",
+  "keywords": [],
+  "bugs": {
+    "url": ""
+  },
+  "author": [
+    {
+      "name": "Andrew Forth"
+    }
+  ],
+  "dependencies": {
+    "amqplib": "0.4.1",
+    "bluebird": "3.3.1",
+    "commander": "2.9.0",
+    "node-uuid": "1.4.7",
+    "restify": "4.0.4"
+  },
+  "devDependencies": {
+    "istanbul": "0.4.2",
+    "mocha": "2.4.5",
+    "should": "8.2.2"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha -R spec ./test/*",
+    "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha -- ./test"
+  }
+}

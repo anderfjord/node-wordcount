@@ -54,13 +54,20 @@ var determineTopWords = function (chunk) {
 
     return new Promise(function (resolve, reject) {
 
-        var topThreshold = 10
-          , topWords = {}
+        var topThreshold
+          , topWords = []
           , wordCounts = {}
           , words = chunk.text.split(' ')
-          , word
-          , topWord
-          , currentTopWordsCount;
+          , word;
+
+        // Keep just the top 10 if the input all fit in a single chunk
+        if (parseInt(chunk.totalChunks, 10) === 1) {
+            topThreshold = 10;
+        }
+        // Keep more if there are multiple chunks, in order to avoid disparities in counts across chunks
+        else {
+            topThreshold = 50;
+        }
 
         words.forEach(function (word) {
             if (word === '' || word === ' ') {
@@ -74,29 +81,22 @@ var determineTopWords = function (chunk) {
             }
         });
 
-        // console.log('WORD COUNTS: ', wordCounts);
+        var counts = [];
 
-        // @TODO - something is not working properly in this block
-        // some words that have higher counts than others are being discarded
         for (word in wordCounts) {
-
-            currentTopWordsCount = Object.keys(topWords).length;
-
-            if (currentTopWordsCount < topThreshold) {
-                topWords[word] = wordCounts[word];
-            }
-            else {
-                for (topWord in topWords) {
-
-                    if (wordCounts[word] >= topWords[topWord]) {
-                        delete topWords[topWord];
-                        topWords[word] = wordCounts[word];
-                    }
-                }
-            }
+            counts.push({
+                word: word,
+                count: wordCounts[word]
+            });
         }
 
-        // console.log('TOP ' + topThreshold + ' WORDS: ', topWords);
+        topWords = counts.sort(function (a, b) {
+            return (a.count > b.count) ? -1 : ((a.count < b.count) ? 1 : 0);
+        });
+
+        topWords = topWords.slice(0, topThreshold);
+
+        console.log('TOP WORDS: ', topWords);
 
         resolve(topWords);
     });

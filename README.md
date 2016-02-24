@@ -19,9 +19,8 @@
 ## Install Node modules
 `npm install`
 
-## Run tests
-`npm test`
-
 ## Start the app
 `pm2 start config/pm2.json`
 
+## Run tests
+`npm test`

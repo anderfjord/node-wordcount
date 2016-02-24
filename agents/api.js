@@ -47,6 +47,7 @@ server.post('/queue', function (req, res) {
 
             var response = {
                 requestId: result.requestId, // A unique id is attached to every request that comes through the API
+                textSize: result.textSize,
                 chunks: result.chunks
             };
 

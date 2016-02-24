@@ -49,17 +49,21 @@ describe('Wordcount API', function() {
 
     describe('queue text to be counted', function() {
 
-        it('should return an object containing a request id and chunk count', function (done) {
+        it('should return an object containing a request id, text size, and chunk count', function (done) {
+
+            var sample = 'Here is some text';
             
-            Client.post('/queue', {text: 'Here is some text'}, function (err, req, res, obj) {
+            Client.post('/queue', {text: sample}, function (err, req, res, obj) {
             
                 if (err) {
                     return done(err);
                 }
 
                 obj.should.be.an.Object;
-                obj.should.have.properties(['requestId', 'chunks']);
+                obj.should.have.properties(['requestId', 'textSize', 'chunks']);
                 obj.requestId.match(uuidRegex).should.be.an.Array;
+                obj.textSize.should.be.Number;
+                obj.textSize.should.equal(sample.length);
                 obj.chunks.should.be.Number;
                 obj.chunks.should.be.greaterThan(-1);
                 done();

@@ -2,5 +2,11 @@
     "ENV": "DEV",
     "host": "localhost",
     "port": 3000,
-    "name": "Wordcount"
+    "name": "Wordcount",
+    "amqp": {
+        "host": "localhost",
+        "user": "guest",
+        "pass": "guest",
+        "queue": "wordcount"
+    }
 }

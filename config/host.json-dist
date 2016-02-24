@@ -6,7 +6,8 @@
         "host": "localhost",
         "user": "guest",
         "pass": "guest",
-        "queue": "wordcount"
+        "queue": "wordcount",
+        "max_message_size": 50000
     },
     "db": {
         "host": "localhost",

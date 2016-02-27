@@ -4,7 +4,9 @@
  * Package Dependencies
  */
 var should = require('should')
-  , Restify = require('restify');
+  , Restify = require('restify')
+  , Promise = require('bluebird')
+  , Fs = Promise.promisifyAll(require('fs'));
 
 /**
  * Local Dependencies
@@ -15,7 +17,9 @@ var hostConfig = require('../../config/host.json')
 
 describe('Wordcount API', function() {
 
-    var Client;
+    var Client
+      , sampleTextFile = 'data/sample.txt'
+      , sampleText = '';
 
     before(function(done) {
 
@@ -24,7 +28,14 @@ describe('Wordcount API', function() {
             version: '~1.0'
         });
 
-        done();
+        Fs.readFileAsync(sampleTextFile)
+            .then(function (fileContents) {
+                sampleText = fileContents.toString('utf8');
+                done();
+            })
+            .catch(function (err) {
+                done(err);
+            });
     });
 
     describe('ping the API', function() {
@@ -33,9 +44,7 @@ describe('Wordcount API', function() {
             
             Client.get('/ping', function (err, req, res, obj) {
             
-                if (err) {
-                    return done(err);
-                }
+                if (err) { return done(err); }
 
                 obj.should.be.an.Object;
                 obj.should.have.properties({
@@ -51,19 +60,15 @@ describe('Wordcount API', function() {
 
         it('should return an object containing a request id, text size, and chunk count', function (done) {
 
-            var sample = 'Here is some text';
+            Client.post('/queue', {text: sampleText}, function (err, req, res, obj) {
             
-            Client.post('/queue', {text: sample}, function (err, req, res, obj) {
-            
-                if (err) {
-                    return done(err);
-                }
+                if (err) { return done(err); }
 
                 obj.should.be.an.Object;
                 obj.should.have.properties(['requestId', 'textSize', 'totalChunks']);
                 uuidSrvc.validate(obj.requestId).should.be.true;
                 obj.textSize.should.be.Number;
-                obj.textSize.should.equal(sample.length);
+                obj.textSize.should.equal(sampleText.length);
                 obj.totalChunks.should.be.Number;
                 obj.totalChunks.should.be.greaterThan(-1);
                 done();
@@ -73,22 +78,43 @@ describe('Wordcount API', function() {
 
     describe('retrieves the results of a count request', function() {
 
-        it('should return an object containing a request id and dictionary of word counts', function (done) {
+        it('should return an object containing certain fields in case of success', function (done) {
 
-            var requestId = '00193c01-4bbc-4191-a142-360e090332fe';
+            Client.get('/results/00193c01-4bbc-4191-a142-360e090332fe', function (err, req, res, obj) {
             
-            Client.get('/results/' + requestId, function (err, req, res, obj) {
-            
-                if (err) {
-                    return done(err);
-                }
+                if (err) { return done(err); }
 
                 obj.should.be.an.Object;
-                obj.should.have.properties(['requestId', 'counts']);
+                obj.should.have.properties(['requestId', 'textSize', 'status', 'completedChunks', 'totalChunks', 'finalCounts']);
                 uuidSrvc.validate(obj.requestId).should.be.true;
-                obj.counts.should.be.Object;
+                obj.textSize.should.be.Number;
+                ['in_progress', 'completed'].indexOf(obj.status).should.be.greaterThan(-1);
+                obj.completedChunks.should.be.Number;
+                obj.totalChunks.should.be.Number;
+                obj.finalCounts.should.be.Object;
+                
                 done();
             });
         });
+
+        it('should return an object containing certain fields in case of failure', function (done) {
+
+            Client.get('/results/00193c01-4bbc-4191-a142-360e090332fe', function (err, req, res, obj) {
+            
+                if (err) { return done(err); }
+
+                obj.should.be.an.Object;
+                obj.should.have.properties(['requestId', 'textSize', 'status', 'completedChunks', 'totalChunks', 'finalCounts']);
+                uuidSrvc.validate(obj.requestId).should.be.true;
+                obj.textSize.should.be.Number;
+                ['in_progress', 'completed'].indexOf(obj.status).should.be.greaterThan(-1);
+                obj.completedChunks.should.be.Number;
+                obj.totalChunks.should.be.Number;
+                obj.finalCounts.should.be.Object;
+                
+                done();
+            });
+        });
+
     });
 });

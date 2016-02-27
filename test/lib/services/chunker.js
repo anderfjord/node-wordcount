@@ -3,20 +3,32 @@
 /**
  * Package Dependencies
  */
-var should = require('should');
+var should = require('should')
+  , Promise = require('bluebird')
+  , Fs = Promise.promisifyAll(require('fs'));
 
 /**
  * Local Dependencies
  */
 var chunkerSrvc = require('../../../lib/services/chunker');
 
-/**
- * Sample text used by tests
- */
-var sampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non accumsan augue. Proin justo quam, vulputate id ipsum id, pharetra scelerisque diam. Pellentesque finibus quis quam quis sollicitudin. Mauris non commodo mauris. Maecenas ut suscipit purus. Vivamus ullamcorper velit at nulla malesuada consequat. Vestibulum ut est ac metus auctor dignissim. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aliquam erat volutpat. Curabitur nisl diam, fermentum nec diam ut, eleifend malesuada massa. Vestibulum pulvinar et velit aliquet auctor. Sed eu hendrerit velit. Fusce eget massa in erat gravida aliquam vitae eu nibh. Vivamus eget nisl dui. Ut lectus justo, luctus sit amet interdum ut, congue quis mi.";
-
 
 describe('Chunker Service', function() {
+
+    var sampleTextFile = 'data/sample.txt'
+      , sampleText = '';
+
+    before(function(done) {
+        
+        Fs.readFileAsync(sampleTextFile)
+            .then(function (fileContents) {
+                sampleText = fileContents.toString('utf8');
+                done();
+            })
+            .catch(function (err) {
+                done(err);
+            });
+    });
 
     describe('getChunks', function() {
 

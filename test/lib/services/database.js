@@ -14,38 +14,19 @@ var hostConfig = require('../../../config/host.json')
 
 describe('Database Service', function() {
 
-    describe('getDatabaseName', function() {
-        it('should return a string representing a database name', function () {
-            var dbName = databaseSrvc.getDatabaseName();
-            dbName.should.be.a.String;
-            dbName.length.should.be.greaterThan(0);
+    describe('load MongoDB', function() {
+        it('should return a MongoDB driver object', function () {
+            var dbDriver = databaseSrvc.load('mongo');
+            dbDriver.should.be.an.Object;
+            dbDriver.should.have.properties(['getConnection', 'closeConnection']);
         });
     });
 
-    describe('getConnection', function() {
-        it('should return a connection object', function () {
-            var dbConn= databaseSrvc.getConnection();
-            dbConn.should.be.an.Object;
-            dbConn.should.have.properties(['query', 'end']);
-            dbConn.close();
-        });
-    });
-
-    describe('exec', function() {
-        it('should execute a query', function (done) {
-            databaseSrvc.exec('')
-                .then(function () {
-                    done()
-                });
-        });
-    });
-
-    describe('select', function() {
-        it('should perform a select query', function (done) {
-            databaseSrvc.select('')
-                .then(function () {
-                    done()
-                });
+    describe('load MySQL', function() {
+        it('should return a MySQL driver object', function () {
+            var dbDriver = databaseSrvc.load('mysql');
+            dbDriver.should.be.an.Object;
+            dbDriver.should.have.properties(['getConnection', 'closeConnection', 'select', 'exec']);
         });
     });
 });

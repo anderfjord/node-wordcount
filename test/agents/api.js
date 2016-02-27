@@ -60,12 +60,12 @@ describe('Wordcount API', function() {
                 }
 
                 obj.should.be.an.Object;
-                obj.should.have.properties(['requestId', 'textSize', 'chunks']);
+                obj.should.have.properties(['requestId', 'textSize', 'totalChunks']);
                 uuidSrvc.validate(obj.requestId).should.be.true;
                 obj.textSize.should.be.Number;
                 obj.textSize.should.equal(sample.length);
-                obj.chunks.should.be.Number;
-                obj.chunks.should.be.greaterThan(-1);
+                obj.totalChunks.should.be.Number;
+                obj.totalChunks.should.be.greaterThan(-1);
                 done();
             });
         });

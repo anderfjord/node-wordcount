@@ -12,7 +12,17 @@
 var hostConfig = require('../config/host.json')
   , amqpSrvc = require('../lib/services/amqp')
   , counterSrvc = require('../lib/services/counter')
-  , resultsSrvc = require('../lib/services/results');
+  , resultsSrvc = require('../lib/services/results')
+  , databaseSrvc = require('../lib/services/database').load('mongo');
+
+
+/**
+ * Immediately acquire a database connection
+ */
+databaseSrvc.getConnection()
+    .then(function (conn) {
+        resultsSrvc.setDbConn(conn);
+    });
 
 /**
  * Immediatly acquire an AMQP channel and start consuming

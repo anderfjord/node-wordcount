@@ -105,6 +105,17 @@ describe('HTTP Service', function() {
         });
     });
 
+    describe('generic status codes', function() {
+
+        it('should return false for non-numeric status codes', function () {
+            httpSrvc.isStatus('error', 'ENOENT').should.be.false();
+        });
+
+        it('should return false for unrecognized status type', function () {
+            httpSrvc.isStatus('unrecognized', 200).should.be.false();
+        });
+    });
+
     describe('normalize status codes', function() {
         
         it('should return false for non-numeric values', function () {

@@ -86,7 +86,8 @@ var loadServer = function () {
             .catch(function (err) {
                 res.status(err.code || httpSrvc.INTERNAL_ERROR); // Error codes are reflected in the response body in order to control exactly what error info is available to the client.
                 res.json({
-                    message: err.message || 'Request refused'
+                    code: err.code,
+                    message: err.message || 'Bad Request'
                 });
             });
     });
@@ -101,7 +102,7 @@ var loadServer = function () {
                 res.send(httpSrvc.OK, result);
             })
             .catch(function (err) {
-                res.send(err.code, err.message);
+                res.send(err.code, { code: err.code, message: err.message });
             })
             .finally(function () {
                 next();

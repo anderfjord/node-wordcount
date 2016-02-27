@@ -17,12 +17,24 @@ var hostConfig = require('../config/host.json')
 
 
 /**
- * Immediately acquire a database connection
+ * Immediately acquire a database connection and close it on process exit
  */
+var dbConn;
 databaseSrvc.getConnection()
     .then(function (conn) {
+        dbConn = conn;
         resultsSrvc.setDbConn(conn);
     });
+
+var handleProcessExit = function () {
+    databaseSrvc.closeConnection(dbConn);
+    process.exit('SIGKILL');
+};
+
+process.on('SIGINT', handleProcessExit);
+process.on('SIGHUP', handleProcessExit);
+process.on('SIGTERM', handleProcessExit);
+process.on('uncaughtException', handleProcessExit);
 
 /**
  * Immediatly acquire an AMQP channel and start consuming

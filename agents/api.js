@@ -16,7 +16,8 @@ var Restify = require('restify');
  */
 var hostConfig = require('../config/host.json')
   , httpSrvc = require('../lib/services/http')
-  , chunkerSrvc = require('../lib/services/chunker');
+  , chunkerSrvc = require('../lib/services/chunker')
+  , resultsSrvc = require('../lib/services/results');
 
 /**
  * Creates and configures the server
@@ -59,6 +60,26 @@ server.post('/queue', function (req, res) {
             res.json({
                 message: err.message || 'Request refused'
             });
+        });
+});
+
+/**
+ * Gets results based on a uuid
+ */
+server.get('/results/:requestId', function (req, res, next) {
+
+    resultsSrvc.getResults(req.params)
+        .then(function (result) {
+            res.send(httpSrvc.OK, {
+                requestId: result.requestId,
+                counts: result.counts
+            });
+        })
+        .catch(function (err) {
+            res.send(err.code, err.message);
+        })
+        .finally(function () {
+            next();
         });
 });
 

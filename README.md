@@ -8,6 +8,9 @@
 ## Install PM2 for process management
 `npm install pm2 -g`
 
+## Install Istanbul for testing code coverage
+`npm install -g istanbul`
+
 ## Clone the repo
 `git clone https://github.com/wreckloose/node-wordcount`
 
@@ -24,3 +27,6 @@
 
 ## Run tests
 `npm test`
+
+## Run tests with code coverage
+`npm run coverage`

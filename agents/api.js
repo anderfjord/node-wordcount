@@ -17,7 +17,28 @@ var Restify = require('restify');
 var hostConfig = require('../config/host.json')
   , httpSrvc = require('../lib/services/http')
   , chunkerSrvc = require('../lib/services/chunker')
-  , resultsSrvc = require('../lib/services/results');
+  , resultsSrvc = require('../lib/services/results')
+  , databaseSrvc = require('../lib/services/database').load('mongo');
+
+/**
+ * Immediately acquire a database connection and close it on process exit
+ */
+var dbConn;
+databaseSrvc.getConnection()
+    .then(function (conn) {
+        dbConn = conn;
+        chunkerSrvc.setDbConn(conn);
+    });
+
+var handleProcessExit = function () {
+    databaseSrvc.closeConnection(dbConn);
+    process.exit('SIGKILL');
+};
+
+process.on('SIGINT', handleProcessExit);
+process.on('SIGHUP', handleProcessExit);
+process.on('SIGTERM', handleProcessExit);
+process.on('uncaughtException', handleProcessExit);
 
 /**
  * Creates and configures the server

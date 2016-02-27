@@ -34,11 +34,12 @@ describe('Counter Service', function() {
             topWords.length.should.equal(10);
 
             topWords.forEach(function (wordObject) {
-                wordObject.should.have.properties(['word', 'count']);
-                wordObject.word.should.be.a.String;
-                wordObject.word.length.should.be.greaterThan(0);
-                wordObject.count.should.be.a.Number;
-                wordObject.count.should.be.greaterThan(0);
+                for (var word in wordObject) {
+                    word.should.be.a.String;
+                    word.length.should.be.greaterThan(0);
+                    wordObject[word].should.be.a.Number;
+                    wordObject[word].should.be.greaterThan(-1);
+                }
             });
         });
 
@@ -54,11 +55,12 @@ describe('Counter Service', function() {
             topWords.length.should.equal(12);
 
             topWords.forEach(function (wordObject) {
-                wordObject.should.have.properties(['word', 'count']);
-                wordObject.word.should.be.a.String;
-                wordObject.word.length.should.be.greaterThan(0);
-                wordObject.count.should.be.a.Number;
-                wordObject.count.should.be.greaterThan(0);
+                for (var word in wordObject) {
+                    word.should.be.a.String;
+                    word.length.should.be.greaterThan(0);
+                    wordObject[word].should.be.a.Number;
+                    wordObject[word].should.be.greaterThan(-1);
+                }
             });
         });
 
@@ -74,11 +76,12 @@ describe('Counter Service', function() {
             topWords.length.should.equal(11);
 
             topWords.forEach(function (wordObject) {
-                wordObject.should.have.properties(['word', 'count']);
-                wordObject.word.should.be.a.String;
-                wordObject.word.length.should.be.greaterThan(0);
-                wordObject.count.should.be.a.Number;
-                wordObject.count.should.be.greaterThan(0);
+                for (var word in wordObject) {
+                    word.should.be.a.String;
+                    word.length.should.be.greaterThan(0);
+                    wordObject[word].should.be.a.Number;
+                    wordObject[word].should.be.greaterThan(-1);
+                }
             });
         });
 

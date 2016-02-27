@@ -5,6 +5,12 @@
 ## Start RabbitMQ
 `rabbitmq-server`
 
+## Install MongoDB
+[Instructions here](https://docs.mongodb.org/manual/installation/)
+
+## Start MongoDB
+`mongod`
+
 ## Install PM2 for process management
 `npm install pm2 -g`
 
@@ -12,7 +18,7 @@
 `npm install -g istanbul`
 
 ## Clone the repo
-`git clone https://github.com/wreckloose/node-wordcount`
+`git clone https://github.com/anderfjord/node-wordcount`
 
 ## Change into the project directory
 `cd node-wordcount`

@@ -1,0 +1,47 @@
+{
+    "name": "Wordcount Requests Schema",
+
+    "description": "Stores results related to a single count request",
+
+    "db": "wordcounts",
+
+    "collection": "requests",
+
+    "types": {
+
+        "completed": {
+            "requestId": "00193c01-4bbc-4191-a142-360e090332fe",
+            "status": "completed",
+            "textSize": 14323,
+            "completedChunks": 3,
+            "totalChunks": 3,
+            "rawCounts": [
+                [{"in": 11}, {"sed": 7}, {"nulla": 3}, {"pellentesque": 2}], 
+                [{"in": 26}, {"est": 16}, {"sed": 15}, {"pellentesque": 12}], 
+                [{"sed": 12}, {"plebum": 10}, {"nulla": 9}, {"quant": 8}]
+            ],
+            "finalCounts": {
+                "in": 37,
+                "sed": 34,
+                "est": 16,
+                "pellentesque": 14,
+                "nulla": 12,
+                "plebum": 10,
+                "quant": 8
+            }
+        },
+
+        "in_progress": {
+            "requestId": "bc267c03-7bae-0282-f556-821e011337ab",
+            "status": "in_progress",
+            "textSize": 14323,
+            "completedChunks": 1,
+            "totalChunks": 3,
+            "rawCounts": [
+                [{"in": 11}, {"sed": 7}, {"nulla": 3}, {"pellentesque": 2}]
+            ],
+            "finalCounts": {}
+        }
+    }
+}
+

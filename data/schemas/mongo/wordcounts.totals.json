@@ -1,0 +1,17 @@
+{
+    "name": "Wordcount Totals Schema",
+
+    "description": "Stores word counts across all requests",
+
+    "db": "wordcounts",
+
+    "collection": "totals",
+
+    "types": {
+
+        "words": {
+            
+        }
+    }
+}
+

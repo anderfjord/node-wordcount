@@ -45,15 +45,8 @@ server.post('/queue', function (req, res) {
 
     chunkerSrvc.queue(req.params)
         .then(function (result) {
-
-            var response = {
-                requestId: result.requestId, // A unique id is attached to every request that comes through the API
-                textSize: result.textSize,
-                chunks: result.chunks
-            };
-
             res.status(httpSrvc.OK);
-            res.json(response);
+            res.json(result);
         })
         .catch(function (err) {
             res.status(err.code || httpSrvc.INTERNAL_ERROR); // Error codes are reflected in the response body in order to control exactly what error info is available to the client.
@@ -70,10 +63,7 @@ server.get('/results/:requestId', function (req, res, next) {
 
     resultsSrvc.getResults(req.params)
         .then(function (result) {
-            res.send(httpSrvc.OK, {
-                requestId: result.requestId,
-                counts: result.counts
-            });
+            res.send(httpSrvc.OK, result);
         })
         .catch(function (err) {
             res.send(err.code, err.message);

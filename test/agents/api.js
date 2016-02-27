@@ -9,13 +9,13 @@ var should = require('should')
 /**
  * Local Dependencies
  */
-var hostConfig = require('../../config/host.json');
+var hostConfig = require('../../config/host.json')
+  , uuidSrvc = require('../../lib/services/uuid');
 
 
 describe('Wordcount API', function() {
 
-    var Client
-      , uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    var Client;
 
     before(function(done) {
 
@@ -61,11 +61,32 @@ describe('Wordcount API', function() {
 
                 obj.should.be.an.Object;
                 obj.should.have.properties(['requestId', 'textSize', 'chunks']);
-                obj.requestId.match(uuidRegex).should.be.an.Array;
+                uuidSrvc.validate(obj.requestId).should.be.true;
                 obj.textSize.should.be.Number;
                 obj.textSize.should.equal(sample.length);
                 obj.chunks.should.be.Number;
                 obj.chunks.should.be.greaterThan(-1);
+                done();
+            });
+        });
+    });
+
+    describe('retrieves the results of a count request', function() {
+
+        it('should return an object containing a request id and dictionary of word counts', function (done) {
+
+            var requestId = '00193c01-4bbc-4191-a142-360e090332fe';
+            
+            Client.get('/results/' + requestId, function (err, req, res, obj) {
+            
+                if (err) {
+                    return done(err);
+                }
+
+                obj.should.be.an.Object;
+                obj.should.have.properties(['requestId', 'counts']);
+                uuidSrvc.validate(obj.requestId).should.be.true;
+                obj.counts.should.be.Object;
                 done();
             });
         });

@@ -13,7 +13,7 @@
       "out_file": "/var/log/wordcount/api-out.log",
       "pid_file": "/var/run/wordcount/api.pid",
       "env": {
-        "PORT": 80
+        "PORT": 3000
       }
     },{
       "name": "worker",

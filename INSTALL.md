@@ -3,10 +3,12 @@
 
 ### Mac OS X
 `brew update`
+
 `brew install rabbitmq`
 
 ### Ubuntu
 `sudo apt-get update`
+
 `sudo apt-get install rabbitmq-server`
 
 ## Start RabbitMQ
@@ -32,6 +34,7 @@
 
 ### Ubuntu
 `curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -`
+
 `sudo apt-get install -y nodejs`
 
 ## Install PM2 for process management

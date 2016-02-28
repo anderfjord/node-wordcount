@@ -6,7 +6,7 @@
 * [PM2](http://pm2.keymetrics.io/) -- v1.0.1
 
 ## Install requirements
-Consult [INSTALL.md](INSTALL.md)
+See [INSTALL.md](INSTALL.md)
 
 ## Clone the repo
 `git clone https://github.com/anderfjord/node-wordcount`
@@ -15,7 +15,7 @@ Consult [INSTALL.md](INSTALL.md)
 `cd node-wordcount`
 
 ## Configure the app
-Consult [CONFIG.md](CONFIG.md)
+See [CONFIG.md](CONFIG.md)
 
 ## Install local Node.js dependencies
 `npm install`

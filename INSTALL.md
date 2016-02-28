@@ -45,7 +45,7 @@
 ## Install PM2 for process management
 `npm install pm2 -g`
 
-### Create run directory for PM2
+### Create directory for PM2 to store process pid files
 `sudo mkdir /var/run/wordcount`
 
 `sudo chown -R <app-user>:<app-user-group> /var/run/wordcount`

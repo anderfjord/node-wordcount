@@ -24,7 +24,12 @@
 [Full instructions here](https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/)
 
 ## Start MongoDB
+
+#### Mac OS X
 `mongod`
+
+#### Ubuntu
+`sudo service mongod start`
 
 ## Install Node.js and NPM
 [Full instructions here](https://nodejs.org/en/download/package-manager/)

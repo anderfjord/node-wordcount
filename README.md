@@ -28,3 +28,5 @@ See [CONFIG.md](CONFIG.md)
 
 ## Run tests with code coverage
 `npm run coverage`
+
+Open `coverage/lcov-report/index.html` in a browser

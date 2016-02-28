@@ -8,9 +8,9 @@
       "log_date_format": "YYYY-MM-DD",
       "exec_mode": "cluster_mode",
       "merge_logs": true,
-      "log_file": "/var/log/wordcount/pm2/api.log",
-      "error_file": "/var/log/wordcount/pm2/api-err.log",
-      "out_file": "/var/log/wordcount/pm2/api-out.log",
+      "log_file": "/var/log/wordcount/api.log",
+      "error_file": "/var/log/wordcount/api-err.log",
+      "out_file": "/var/log/wordcount/api-out.log",
       "pid_file": "/var/run/wordcount/api.pid",
       "env": {
         "PORT": 80
@@ -23,9 +23,9 @@
       "log_date_format": "YYYY-MM-DD",
       "exec_mode": "cluster_mode",
       "merge_logs": true,
-      "log_file": "/var/log/wordcount/pm2/worker.log",
-      "error_file": "/var/log/wordcount/pm2/worker-err.log",
-      "out_file": "/var/log/wordcount/pm2/worker-out.log",
+      "log_file": "/var/log/wordcount/worker.log",
+      "error_file": "/var/log/wordcount/worker-err.log",
+      "out_file": "/var/log/wordcount/worker-out.log",
       "pid_file": "/var/run/wordcount/worker.pid"
     }
   ]

@@ -1,4 +1,4 @@
-## Install RabbitMQ
+## Install & Start RabbitMQ
 [Full instructions here](http://www.rabbitmq.com/download.html)
 
 #### Mac OS X
@@ -11,10 +11,10 @@
 
 `sudo apt-get install rabbitmq-server`
 
-## Start RabbitMQ
+### Start RabbitMQ
 `rabbitmq-server`
 
-## Install MongoDB
+## Install & Start MongoDB
 [Full instructions here](https://docs.mongodb.org/manual/installation/)
 
 #### Mac OS X
@@ -23,7 +23,7 @@
 #### Ubuntu
 [Full instructions here](https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/)
 
-## Start MongoDB
+### Start MongoDB
 
 #### Mac OS X
 `mongod`

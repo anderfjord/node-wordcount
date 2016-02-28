@@ -26,14 +26,13 @@ The contents of `config/host.json` should look something like this:
 }
 ```
 
-The most import settings to change are likely:
+Setting | Description
+--- | --- 
+**host** | IP or hostname of the local machine
+**port** | Port on the local machine on which the API listens
+**amqp.host** | IP or hostname of the machine on which the AMQP message queue (in this case, RabbitMQ) is running
+**amqp.queue** | Name of the queue on which to pass count requests to workers
+**db.mongo.host** | IP or hostname of the machine on which MongoDB is running
 
-**host**
 
-**port**
 
-**amqp.host**
-
-**amqp.queue**
-
-**db.mongo.host**

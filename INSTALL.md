@@ -1,12 +1,12 @@
 ## Install RabbitMQ
-[Instructions here](http://www.rabbitmq.com/download.html)
+[Full instructions here](http://www.rabbitmq.com/download.html)
 
-### Mac OS X
+#### Mac OS X
 `brew update`
 
 `brew install rabbitmq`
 
-### Ubuntu
+#### Ubuntu
 `sudo apt-get update`
 
 `sudo apt-get install rabbitmq-server`
@@ -15,24 +15,24 @@
 `rabbitmq-server`
 
 ## Install MongoDB
-[Instructions here](https://docs.mongodb.org/manual/installation/)
+[Full instructions here](https://docs.mongodb.org/manual/installation/)
 
-### Mac OS X
+#### Mac OS X
 `brew install mongodb`
 
-### Ubuntu
-[Instructions here](https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/)
+#### Ubuntu
+[Full instructions here](https://docs.mongodb.org/manual/tutorial/install-mongodb-on-ubuntu/)
 
 ## Start MongoDB
 `mongod`
 
 ## Install Node.js and NPM
-[Instructions here](https://nodejs.org/en/download/package-manager/)
+[Full instructions here](https://nodejs.org/en/download/package-manager/)
 
-### Mac OS X
+#### Mac OS X
 `brew install node`
 
-### Ubuntu
+#### Ubuntu
 `curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -`
 
 `sudo apt-get install -y nodejs`

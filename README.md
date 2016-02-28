@@ -1,6 +1,5 @@
 
-Requirements
-============
+## Requirements
 * [Node.js](http://nodejs.org/) -- v5.6.0
 * [RabbitMQ](http://www.rabbitmq.com/) -- v3.6.0
 * [MongoDB](https://www.mongodb.org/) -- v3.2.1

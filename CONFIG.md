@@ -28,8 +28,12 @@ The contents of `config/host.json` should look something like this:
 
 The most import settings to change are likely:
 
-*host*
-*port*
-*amqp.host*
-*amqp.queue*
-*db.mongo.host*
+**host**
+
+**port**
+
+**amqp.host**
+
+**amqp.queue**
+
+**db.mongo.host**

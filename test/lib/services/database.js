@@ -21,12 +21,5 @@ describe('Database Service', function() {
             dbDriver.should.have.properties(['getConnection', 'closeConnection']);
         });
     });
-
-    describe('load MySQL', function() {
-        it('should return a MySQL driver object', function () {
-            var dbDriver = databaseSrvc.load('mysql');
-            dbDriver.should.be.an.Object;
-            dbDriver.should.have.properties(['getConnection', 'closeConnection', 'select', 'exec']);
-        });
-    });
+    
 });

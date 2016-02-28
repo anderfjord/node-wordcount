@@ -10,13 +10,6 @@
         "max_message_size": 50000
     },
     "db": {
-        "mysql": {
-            "host": "localhost",
-            "port": 3306,
-            "user": "dbuser",
-            "password": "123456",
-            "database": "wordcounts"
-        },
         "mongo": {
             "host": "localhost",
             "port": 27017,

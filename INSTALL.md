@@ -49,3 +49,8 @@
 `sudo mkdir /var/run/wordcount`
 
 `sudo chown -R <app-user>:<app-user-group> /var/run/wordcount`
+
+### Create directory for PM2 to store log files
+`sudo mkdir /var/log/wordcount`
+
+`sudo chown -R <app-user>:<app-user-group> /var/log/wordcount`

@@ -3,7 +3,7 @@
     {
       "name": "api",
       "instances": 1,
-      "cron_restart": "0 */12 * * *",
+      "cron_restart": "0 */24 * * *",
       "script": "./agents/api.js",
       "log_date_format": "YYYY-MM-DD",
       "exec_mode": "cluster_mode",
@@ -17,8 +17,8 @@
       }
     },{
       "name": "worker",
-      "instances": 10,
-      "cron_restart": "0 */6 * * *",
+      "instances": 4,
+      "cron_restart": "0 */12 * * *",
       "script": "./agents/worker.js",
       "log_date_format": "YYYY-MM-DD",
       "exec_mode": "cluster_mode",

@@ -1,0 +1,1 @@
+Agents are scripts that run as standalone processes.

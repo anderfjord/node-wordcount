@@ -5,7 +5,7 @@
 * [MongoDB](https://www.mongodb.org/) -- v3.2.1
 * [PM2](http://pm2.keymetrics.io/) -- v1.0.1
 
-## Install Global Dependencies
+## Install requirements
 Consult [INSTALL.md](INSTALL.md)
 
 ## Clone the repo
@@ -17,7 +17,7 @@ Consult [INSTALL.md](INSTALL.md)
 ## Configure the app
 Consult [CONFIG.md](CONFIG.md)
 
-## Install Node modules
+## Install local Node.js dependencies
 `npm install`
 
 ## Start the app

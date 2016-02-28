@@ -24,13 +24,13 @@ See [CONFIG.md](CONFIG.md)
 `pm2 start config/pm2.json`
 
 ## Run tests
-Unit tests are run using [Mocha](https://mochajs.org/)
-
 `npm test`
 
-## Run tests with code coverage
-Code coverage is generated using [Istanbul](https://www.npmjs.com/package/istanbul) in conjunction with [Mocha](https://mochajs.org/)
+Unit tests are run using [Mocha](https://mochajs.org/)
 
+## Run tests with code coverage
 `npm run coverage`
 
 Open `coverage/lcov-report/index.html` in a browser
+
+Code coverage is generated using [Istanbul](https://www.npmjs.com/package/istanbul) in conjunction with [Mocha](https://mochajs.org/)

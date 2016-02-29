@@ -62,6 +62,38 @@ var loadServer = function () {
         version: '1.0.0'
     }).use(Restify.bodyParser());
 
+    
+    /**
+     * STATIC
+     */
+
+    /**
+     * Index page
+     */
+    server.get('/', Restify.serveStatic({
+        directory: 'public/html',
+        default: 'index.html'
+    }));
+
+    /**
+     * CSS
+     */
+    server.get(/\/css\/?.*$/, Restify.serveStatic({
+        directory: 'public'
+    }));
+
+    /**
+     * JavaScript
+     */
+    server.get(/\/js\/?.*$/, Restify.serveStatic({
+        directory: 'public'
+    }));
+
+
+    /**
+     * REST
+     */
+
     /**
      * Provides an easy way to ascertain if the api is up
      */

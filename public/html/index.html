@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <title>N-Wordcounter</title>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/local.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <script src="js/local.js"></script>
+
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
+                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand">N-Wordcounter</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a id="about">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <div class="jumbotron">
+            <h1>Top 10 Words</h1>
+            <p>Submit some text to determine the most frequest words that it contains</p>
+        </div>
+
+        <div class="js-only">
+
+            <div id="input-view-container" class="view-container">
+
+                <div id="input-mode-controller" class="btn-group" role="group">
+                    <button type="button" class="btn btn-default active">Enter Text</button>
+                    <button type="button" class="btn btn-default">Upload Text</button>
+                </div>
+
+                <br class="clear" />
+
+                <div class="input-modes">
+
+                    <div id="freeform-text-container">
+                        <fieldset class="form-group">
+                            <label for="freeform-text">Enter text</label>
+                            <textarea name="text" class="form-control" id="freeform-text"></textarea>
+                        </fieldset>
+                    </div>
+
+                    <div id="upload-text-container"> 
+                        <fieldset class="form-group">
+                            <label for="upload-text">Upload a text file</label>
+                            <input type="file" class="form-control-file" id="upload-text" />
+                            <small class="text-muted">For best results, file should only contain text</small>
+                        </fieldset>
+                    </div>
+
+                </div>
+
+                <button id="submit-counts" type="button" class="btn btn-lg btn-warning">Get Counts</button>
+
+            </div>
+            <!-- input-view-container -->
+
+            <div id="in-progress-view-container" class="view-container">
+                <h2>Counting...</h2>
+                <p class="request-id-wrapper">Request ID: <span class="request-id"></span></p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- in-progress-view-container -->
+
+            <div id="results-view-container" class="view-container">
+                <h2>Results of Count</h2>
+                <div id="results-view"><pre></pre></div>
+                <button type="button" class="btn btn-lg btn-warning">Submit More Text</button>
+            </div>
+            <!-- results-view-container -->
+
+            <div id="aboutModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 class="modal-title">About</h3>
+                        </div>
+
+                        <div class="modal-body">
+                            <p>This distributed wordcounter was built by <a href="https://www.linkedin.com/in/andrewforth" target="new">Andrew Forth</a> using Node.js, RabbitMQ, MongoDB, jQuery, and Bootstrap.</p>
+                            <p>The <a href="https://github.com/anderfjord/node-wordcount" target="new">source code</a> is available on GitHub.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- aboutModal -->
+
+        </div>
+        <!-- js-only -->
+
+        <noscript>
+            <p>This site requires JavaScript</p>
+        </noscript>
+
+    </div>
+
+</body>
+</html>

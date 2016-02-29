@@ -1,0 +1,50 @@
+
+header a {
+    cursor: pointer;
+}
+
+.js-only {
+    display: none;
+}
+
+.clear {
+    float: none;
+    clear: both;
+    height: 0;
+}
+
+.input-modes {
+    height: 100px;
+}
+
+.view-container {
+    margin-top: 2rem;
+}
+
+.request-id-wrapper {
+    font-weight: bold;
+}
+
+.request-id-wrapper span {
+    font-weight: normal;
+}
+
+#input-view-container {
+    display: block;
+}
+
+#input-mode-controller {
+    margin-bottom: 2rem;
+}
+
+#in-progress-view-container {
+    display: none;
+}
+
+#results-view-container {
+    display: none;
+}
+
+#upload-text-container {
+    display: none;
+}

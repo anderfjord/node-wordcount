@@ -179,7 +179,7 @@ var loadServer = function () {
     /**
      * Start the server
      */
-    server.listen(process.env.PORT || hostConfig.port, hostConfig.host, function (err) {
+    server.listen(hostConfig.port, function (err) {
         if (err) {
             var msg = 'API server failed on startup';
             throw new Error(msg);

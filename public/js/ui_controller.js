@@ -32,7 +32,7 @@ var UiController = {
     loadUserInterface: function () {
         var self = this;
         self.DOM.jsOnly.show(); // Reveal the full UI to JavaScript users
-        self.DOM.freeformText.focus();
+        self.showInputView();
     },
 
     loadClickHandlers: function () {
@@ -40,7 +40,6 @@ var UiController = {
         
         self.DOM.homeBtn.click(function (ev) {
             ev.preventDefault();
-            self.DOM.freeformText.focus();
             self.showInputView();
         });
 
@@ -66,7 +65,6 @@ var UiController = {
         // Capture filepaths when the file input field changes
         self.DOM.uploadInput.on('change', function (ev) {
             self.FILES = ev.target.files;
-            console.log('FILES: ', self.FILES);
         });
 
         // Switch between text entry and recent requests within the input view
@@ -74,20 +72,9 @@ var UiController = {
             e.preventDefault();
             var viewTarget = self.$(this).attr('data-view-target');
             switch (viewTarget) {
-                case 'text-input-view':
-                    self.DOM.myRequestsTab.removeClass('active');
-                    self.DOM.textInputTab.addClass('active');
-                    self.DOM.myRequestsView.hide();
-                    self.DOM.textInputView.show();
-                    break;
-
-                case 'my-requests-view':
-                default:
-                    self.DOM.textInputTab.removeClass('active');
-                    self.DOM.myRequestsTab.addClass('active');
-                    self.DOM.textInputView.hide();
-                    self.DOM.myRequestsView.show();
-                    break;
+                case 'my-requests-view':    self.showMyRecentRequestsView();    break;
+                case 'text-input-view':     self.showInputEntryView();          break;
+                default:                    self.showInputEntryView();          break;
             }
         });
 
@@ -96,27 +83,15 @@ var UiController = {
             ev.preventDefault();
             var viewTarget = self.$(this).attr('data-view-target');
             switch (viewTarget) {
-                case 'raw-results-view':
-                    self.DOM.graphResultsTab.removeClass('active');
-                    self.DOM.rawResultsTab.addClass('active');
-                    self.DOM.graphResultsView.hide();
-                    self.DOM.rawResultsView.show();
-                    break;
-
-                case 'graph-results-view':
-                default:
-                    self.DOM.rawResultsTab.removeClass('active');
-                    self.DOM.graphResultsTab.addClass('active');
-                    self.DOM.rawResultsView.hide();
-                    self.DOM.graphResultsView.show();
-                    break;
+                case 'raw-results-view':    self.showResultsRawView();      break;
+                case 'graph-results-view':  self.showResultsGraphView();    break;
+                default:                    self.showResultsGraphView();    break;
             }
         });
 
         // Submit another count request following successful result
         self.DOM.returnToInputViewBtn.click(function () {
             self.DOM.freeformText.val('');
-            self.DOM.freeformText.focus();
             self.showInputView();
         });
 
@@ -131,16 +106,78 @@ var UiController = {
         return self.$.ajax(request);
     },
 
-    // Show the input view
     showInputView: function () {
         var self = this;
         self.clearDisplayedRequestId();
         self.DOM.resultsViewContainer.hide();
         self.DOM.inProgressViewContainer.hide();
+
+        self.showInputEntryView();
         self.DOM.inputViewContainer.show();
+        self.DOM.freeformText.focus();
     },
 
-    // Show the specified input entry view
+    showInputEntryView: function () {
+        var self = this;
+        self.DOM.myRequestsTab.removeClass('active');
+        self.DOM.textInputTab.addClass('active');
+        self.DOM.myRequestsView.hide();
+        self.DOM.textInputView.show();
+    },
+
+    showMyRecentRequestsView: function () {
+        var self = this;
+        self.DOM.textInputTab.removeClass('active');
+        self.DOM.myRequestsTab.addClass('active');
+        self.DOM.textInputView.hide();
+        self.loadMyRequestsView();
+    },
+
+    loadMyRequestsView: function () {
+        
+        var self = this
+          , list = [];
+
+        self.DOM.myRequestsList.unbind('click'); // Remove any previously-attached event handlers
+        self.DOM.myRequestsList.html('');
+
+        if (self.recentRequests.length > 0) {
+
+            self.recentRequests.forEach(function (requestId) {
+                list.push('<li><a data-request-id="' + requestId + '">' + requestId + '</a></li>');
+            });
+
+            self.DOM.myRequestsList.html(list.join('\n'));
+
+            self.DOM.myRequestsList.click(function (ev) {
+                ev.preventDefault();
+
+                var requestId = self.$(ev.target).attr('data-request-id');
+
+                if (requestId) {
+                    self.retrieveRequest(requestId);
+                } else {
+                    alert('Request could not be retrieved');
+                }
+            });
+
+            self.DOM.myRequestsEmpty.hide();
+            self.DOM.myRequestsList.show();
+        } else {
+            self.DOM.myRequestsList.hide();
+            self.DOM.myRequestsEmpty.show();
+        }
+
+        self.DOM.myRequestsView.show();
+    },
+
+    retrieveRequest: function (requestId) {
+        var self = this;
+        self.DOM.requestIdDisplay.html(requestId);
+        self.showInProgressView('retrieve');
+        self.pollForResults(requestId);
+    },
+
     showEntryView: function (type) {
         var self = this;
         switch (type) {
@@ -162,7 +199,6 @@ var UiController = {
         }
     },
 
-    // Submit freeform text to the API
     submitText: function () {
 
         var self = this
@@ -201,14 +237,17 @@ var UiController = {
         });
     },
 
-    // Upload a text file to the API
     uploadTextFile: function () {
         
         var self = this
           , data = new FormData();
-        
+
+        if (!self.FILES) {
+            alert('Please select a text file to upload');
+            return;
+        }
+
         self.$.each(self.FILES, function (key, value) {
-            console.log('FILE: ', key, ' -> ', value);
             data.append(key, value);
         });
 
@@ -239,26 +278,35 @@ var UiController = {
         });
     },
 
-    // Show the in-progress view
-    showInProgressView: function () {
+    showInProgressView: function (mode) {
         
         var self = this
           , progressNum = 0;
+
+        if ('retrieve' === mode) {
+            self.DOM.inProgressCounting.hide();
+            self.DOM.inProgressRetrieving.show();
+        } else {
+            self.DOM.inProgressRetrieving.hide();
+            self.DOM.inProgressCounting.show();
+        }
 
         self.DOM.inputViewContainer.hide();
         self.DOM.resultsViewContainer.hide();
         self.DOM.inProgressViewContainer.show();
 
         // Start animating the progress bar
-        self.progressBarInterval = setInterval(function () {
-            progressNum += 10;
-            self.DOM.progressBar.attr('aria-valuenow', progressNum);
-            self.DOM.progressBar.css('width', '' + progressNum + '%');
+        if (!self.progressBarInterval) {
+            self.progressBarInterval = setInterval(function () {
+                progressNum += 10;
+                self.DOM.progressBar.attr('aria-valuenow', progressNum);
+                self.DOM.progressBar.css('width', '' + progressNum + '%');
 
-            if (progressNum >= 100) {
-                self.clearProgressBar();
-            }
-        }, self.progressBarUpdateInterval);
+                if (progressNum >= 100) {
+                    self.clearProgressBar();
+                }
+            }, self.progressBarUpdateInterval);
+        }
     },
 
     clearProgressBar: function () {
@@ -266,6 +314,7 @@ var UiController = {
         if (self.progressBarInterval) {
             clearInterval(self.progressBarInterval);
         }
+        self.progressBarInterval = null;
         self.DOM.progressBar.attr('aria-valuenow', 0);
         self.DOM.progressBar.css('width', '0');
     },
@@ -275,7 +324,6 @@ var UiController = {
         self.DOM.requestIdDisplay.html('');
     },
 
-    // Poll for results
     pollForResults: function (requestId) {
         var self = this;
 
@@ -302,7 +350,6 @@ var UiController = {
         }, self.pollInterval);
     },
 
-     // Show the results view
     showResultsView: function (data) {
 
         var self = this
@@ -340,10 +387,26 @@ var UiController = {
             xMin: 0
         });
 
-        self.DOM.rawResultsView.hide()
+        self.showResultsGraphView();
         
         self.DOM.rawResultsViewContents.html(JSON.stringify(data, null, 2));
 
         self.DOM.resultsViewContainer.show();
+    },
+
+    showResultsGraphView: function () {
+        var self = this;
+        self.DOM.rawResultsTab.removeClass('active');
+        self.DOM.graphResultsTab.addClass('active');
+        self.DOM.rawResultsView.hide();
+        self.DOM.graphResultsView.show();
+    },
+
+    showResultsRawView: function () {
+        var self = this;
+        self.DOM.graphResultsTab.removeClass('active');
+        self.DOM.rawResultsTab.addClass('active');
+        self.DOM.graphResultsView.hide();
+        self.DOM.rawResultsView.show();
     }
 };

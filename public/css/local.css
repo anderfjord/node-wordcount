@@ -56,7 +56,15 @@ header a {
     display: none;
 }
 
+#my-requests-list a:hover {
+    cursor: pointer;
+}
+
 #in-progress-view-container {
+    display: none;
+}
+
+#in-progress-retrieving {
     display: none;
 }
 

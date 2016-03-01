@@ -18,6 +18,9 @@
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
+    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+    <script src="js/graph.js"></script>
     <script src="js/local.js"></script>
 
 </head>
@@ -36,7 +39,7 @@
                     <a class="navbar-brand">N-Wordcounter</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a id="about">About</a>
                         </li>
@@ -49,31 +52,38 @@
     <div class="container">
 
         <div class="jumbotron">
-            <h1>Top 10 Words</h1>
-            <p>Submit some text to determine the most frequest words that it contains</p>
+            <h1>Top <span class="n-words">10</span> Words</h1>
+            <p>Determine the most frequest words in a body of text</p>
         </div>
 
         <div class="js-only">
 
             <div id="input-view-container" class="view-container">
 
-                <div id="input-mode-controller" class="btn-group" role="group">
-                    <button type="button" class="btn btn-default active">Enter Text</button>
-                    <button type="button" class="btn btn-default">Upload Text</button>
-                </div>
+                <ul id="input-tabs" class="nav nav-tabs bot-m-2">
+                    <li id="text-input-tab" data-view-target="text-input-view" role="presentation" class="active"><a href="#">Get Top Words</a></li>
+                    <li id="my-requests-tab" data-view-target="my-requests-view" role="presentation"><a href="#">My Recent Requests</a></li>
+                </ul>
 
-                <br class="clear" />
+                <div id="input-view">
 
-                <div class="input-modes">
+                    <div class="row">
+                        <div id="input-mode-controller" class="btn-group col-md-3" role="group">
+                            <button type="button" class="btn btn-default active">Enter Text</button>
+                            <button type="button" class="btn btn-default">Upload Text</button>
+                        </div>
+                    </div>
 
-                    <div id="freeform-text-container">
+                    <br class="clear" />
+
+                    <div id="freeform-text-container" class="input-mode">
                         <fieldset class="form-group">
                             <label for="freeform-text">Enter text</label>
                             <textarea name="text" class="form-control" id="freeform-text"></textarea>
                         </fieldset>
                     </div>
 
-                    <div id="upload-text-container"> 
+                    <div id="upload-text-container" class="input-mode"> 
                         <fieldset class="form-group">
                             <label for="upload-text">Upload a text file</label>
                             <input type="file" class="form-control-file" id="upload-text" />
@@ -81,9 +91,14 @@
                         </fieldset>
                     </div>
 
+                    <button id="submit-counts" type="button" class="btn btn-lg btn-warning">Get Counts</button>
                 </div>
 
-                <button id="submit-counts" type="button" class="btn btn-lg btn-warning">Get Counts</button>
+                <div id="my-requests-view">
+                    <p>No recent requests.</p>
+                    <ul id="my-requests-list">
+                    </ul>
+                </div>
 
             </div>
             <!-- input-view-container -->
@@ -100,9 +115,19 @@
             <!-- in-progress-view-container -->
 
             <div id="results-view-container" class="view-container">
-                <h2>Results of Count</h2>
-                <div id="results-view"><pre></pre></div>
-                <button type="button" class="btn btn-lg btn-warning">Submit More Text</button>
+                <h2>Count Results</h2>
+                <ul id="results-tabs" class="nav nav-tabs bot-m-2">
+                    <li id="graph-results-tab" role="presentation" data-view-target="graph-results-view" class="active"><a href="#">Graph</a></li>
+                    <li id="raw-results-tab" role="presentation" data-view-target="raw-results-view"><a href="#">Raw Results</a></li>
+                </ul>
+                <p class="request-id-wrapper">Request ID: <span class="request-id"></span></p>
+                <div id="graph-results-view" class="bot-m-1-5">
+                    <div id="results-graph"></div>
+                </div>
+                <div id="raw-results-view" class="bot-m-1">
+                    <pre></pre>
+                </div>
+                <button type="button" class="btn btn-lg btn-warning top-m-2">Submit More Text</button>
             </div>
             <!-- results-view-container -->
 
@@ -116,7 +141,17 @@
                         </div>
 
                         <div class="modal-body">
-                            <p>This distributed wordcounter was built by <a href="https://www.linkedin.com/in/andrewforth" target="new">Andrew Forth</a> using Node.js, RabbitMQ, MongoDB, jQuery, and Bootstrap.</p>
+                            <p>This distributed wordcounter was built by <a href="https://www.linkedin.com/in/andrewforth" target="new">Andrew Forth</a> using:</p>
+                            <p>
+                                <ul>
+                                    <li><a href="https://nodejs.org/en/" target="new">Node.js</a></li>
+                                    <li><a href="http://www.rabbitmq.com/" target="new">RabbitMQ</a></li>
+                                    <li><a href="https://www.mongodb.org/" target="new">MongoDB</a></li>
+                                    <li><a href="https://jquery.com/" target="new">jQuery</a></li>
+                                    <li><a href="http://getbootstrap.com/" target="new">Bootstrap</a></li>
+                                    <li><a href="https://d3js.org/" target="new">D3</a></li>
+                                </ul>
+                            </p>
                             <p>The <a href="https://github.com/anderfjord/node-wordcount" target="new">source code</a> is available on GitHub.</p>
                         </div>
 

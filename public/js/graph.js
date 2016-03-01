@@ -113,9 +113,7 @@ var nGraph = {
                             .append('rect')
                             .attr('height', barWidth) // Thickness of bars
                             .attr({'x': 0, 'y': function (d, i) {
-                                var ys = yscale(i);
-                                console.log('YS: ', ys);
-                                return ys + barWidth; // Bar vertical orientation
+                                return yscale(i) + barWidth; // Bar vertical orientation
                             }})
                             .style('fill',function (d, i) { return colorScale(i); })
                             .attr('width',function (d) { return 0; });

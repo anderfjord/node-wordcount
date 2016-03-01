@@ -9,7 +9,8 @@
 /**
  * Package Dependencies
  */
-var Restify = require('restify');
+var Restify = require('restify')
+  , os = require('os');
   
 /**
  * Local Dependencies
@@ -52,7 +53,9 @@ process.on('uncaughtException', handleProcessExit);
 /**
  * Encapsulate loading of the server
  */
-var loadServer = function () {
+var loadServer = function () { 
+
+    var fileUploadContents = [];
 
     /**
      * Creates and configures the server
@@ -60,31 +63,49 @@ var loadServer = function () {
     var server = Restify.createServer({
         name: hostConfig.name + ' API',
         version: '1.0.0'
-    }).use(Restify.bodyParser());
+    }); // .use(Restify.bodyParser());
 
+    server.use(Restify.acceptParser(server.acceptable));
+    server.use(Restify.queryParser());
+    // server.use(Restify.CORS());
+    server.use(Restify.gzipResponse());
+    server.use(Restify.bodyParser({
+        maxBodySize: 0,
+        mapParams: true,
+        mapFiles: false,
+        overrideParams: false,
+        multipartHandler: function(part) {
+            part.on('data', function(data) {
+                fileUploadContents.push(data.toString());
+            });
+        },
+        multipartFileHandler: function(part) {
+            part.on('data', function(data) {
+                fileUploadContents.push(data.toString());
+            });
+        },
+        keepExtensions: false,
+        uploadDir: os.tmpdir(),
+        multiples: true,
+        hash: 'sha1'
+     }));
     
     /**
      * STATIC
      */
 
-    /**
-     * Index page
-     */
+    // Index page
     server.get('/', Restify.serveStatic({
         directory: 'public/html',
         default: 'index.html'
     }));
 
-    /**
-     * CSS
-     */
+    // CSS
     server.get(/\/css\/?.*$/, Restify.serveStatic({
         directory: 'public'
     }));
 
-    /**
-     * JavaScript
-     */
+    // JavaScript
     server.get(/\/js\/?.*$/, Restify.serveStatic({
         directory: 'public'
     }));
@@ -94,9 +115,7 @@ var loadServer = function () {
      * REST
      */
 
-    /**
-     * Provides an easy way to ascertain if the api is up
-     */
+    // Provides an easy way to ascertain if the api is up
     server.get('/ping', function (req, res, next) {
         res.send(httpSrvc.OK, {
             name: hostConfig.name + ' API',
@@ -105,9 +124,7 @@ var loadServer = function () {
         next();
     });
 
-    /**
-     * Queues text body for counting
-     */
+    // Queues a body of text for counting
     server.post('/queue', function (req, res) {
 
         chunkerSrvc.queue(req.params)
@@ -124,9 +141,27 @@ var loadServer = function () {
             });
     });
 
-    /**
-     * Gets results based on a uuid
-     */
+    // Handles an uploaded file containing text for counting
+    server.post('/upload', function (req, res) {
+
+        var fileText = fileUploadContents.join(' ');
+        fileUploadContents = [];
+        
+        chunkerSrvc.queue({text: fileText})
+            .then(function (result) {
+                res.status(httpSrvc.OK);
+                res.json(result);
+            })
+            .catch(function (err) {
+                res.status(err.code || httpSrvc.INTERNAL_ERROR); // Error codes are reflected in the response body in order to control exactly what error info is available to the client.
+                res.json({
+                    code: err.code,
+                    message: err.message || 'Bad Request'
+                });
+            });
+    });
+
+    // Gets count results based on a uuid
     server.get('/results/:requestId', function (req, res, next) {
 
         resultsSrvc.getResults(req.params)
@@ -142,7 +177,7 @@ var loadServer = function () {
     });
 
     /**
-     * Starts the server
+     * Start the server
      */
     server.listen(process.env.PORT || hostConfig.port, hostConfig.host, function (err) {
         if (err) {

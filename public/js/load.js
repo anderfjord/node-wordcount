@@ -16,6 +16,7 @@ jQuery(document).ready(function ($) {
         freeformTextContainer: $('#freeform-text-container'),
         freeformText: $('#freeform-text-container textarea'),
         uploadTextContainer: $('#upload-text-container'),
+        uploadInput: $('input[type=file]'),
         submitTextBtn: $('#submit-counts'),
         textInputTab: $('#text-input-tab'),
         textInputView: $('#input-view'),

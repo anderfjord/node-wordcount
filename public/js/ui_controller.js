@@ -7,6 +7,8 @@ var UiController = {
 
     DOM: {},
 
+    FILES: null,
+
     API_BASE_URL: '/',
 
     currentView: 'freeform',
@@ -59,6 +61,12 @@ var UiController = {
                 case 'freeform':    self.submitText();       break;
                 default:            self.submitText();       break;
             }
+        });
+
+        // Capture filepaths when the file input field changes
+        self.DOM.uploadInput.on('change', function (ev) {
+            self.FILES = ev.target.files;
+            console.log('FILES: ', self.FILES);
         });
 
         // Switch between text entry and recent requests within the input view
@@ -195,7 +203,40 @@ var UiController = {
 
     // Upload a text file to the API
     uploadTextFile: function () {
-        var self = this;
+        
+        var self = this
+          , data = new FormData();
+        
+        self.$.each(self.FILES, function (key, value) {
+            console.log('FILE: ', key, ' -> ', value);
+            data.append(key, value);
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: self.API_BASE_URL + 'upload',
+            data: data,
+            cache: false,
+            dataType: 'json',
+            processData: false, // Don't process the files
+            contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+            success: function (data) {
+                // Store all recent requests in memory
+                self.recentRequests.push(data.requestId);
+                
+                // Display the current request id
+                self.DOM.requestIdDisplay.html(data.requestId);
+                
+                // Swith to "in progress" view
+                self.showInProgressView(); 
+                
+                // Start polling for count results
+                self.pollForResults(data.requestId);
+            },
+            error: function () {
+                alert('An error occurred during file upload. Please try again.');
+            }
+        });
     },
 
     // Show the in-progress view
